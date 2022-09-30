@@ -75,7 +75,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-    (sagenes * 48 * 4.445 + arshins * 16 * 4.445 + vershoks * 4.445) / 100
+    (sagenes * 48 + arshins * 16 + vershoks) * 4.445 / 100
 
 /**
  * Тривиальная (1 балл)
@@ -111,7 +111,7 @@ fun thirdDigit(number: Int): Int = (number % 1000) / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-    (60 - minutesDepart) + (hoursArrive - hoursDepart - 1)*60 + minutesArrive
+    -minutesDepart + (hoursArrive - hoursDepart) *60 + minutesArrive
 
 /**
  * Простая (2 балла)
@@ -130,4 +130,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double =
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int =
-    (number % 10) * 100 + (number / 100) + (number - (number % 10) - (number / 100) * 100)
+    (number % 10) * 100 + (number / 100) + ((number/10)%10)*10
