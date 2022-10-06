@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.util.function.ToDoubleFunction
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -120,14 +121,18 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double = sqrt((v.map{it*it}).sum())
+    //var list1=v.toMutableList()
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.size!=0) return (list.sum()/ list.size) else return 0.0
+}
+
 
 /**
  * Средняя (3 балла)
@@ -137,8 +142,15 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
 
+fun center(list: MutableList<Double>): MutableList<Double> {
+    var average = 0.0
+    if (list.size!=0) average = (list.sum()/ list.size) else average= 0.0
+    for (i in 0 until list.size){
+        list[i] -= average
+    }
+    return list
+}
 /**
  * Средняя (3 балла)
  *
@@ -146,7 +158,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int{
+    var scalar =0
+    for (i in 0 until a.size){
+        scalar+=a[i]*b[i]
+    }
+    return scalar
+}
 
 /**
  * Средняя (3 балла)
