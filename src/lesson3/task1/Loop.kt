@@ -74,12 +74,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var count=0
+    var count = 0
     var number = n
-    do{
+    do {
         count++
         number /= 10
-    }while (number>0)
+    } while (number > 0)
     return count
 }
 
@@ -90,13 +90,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1=1
-    var fib2=1
-    var fibNew=1
-    for (i in 3..n){
-        fibNew=fib1+fib2
-        fib2=fib1
-        fib1=fibNew
+    var fib1 = 1
+    var fib2 = 1
+    var fibNew = 1
+    for (i in 3..n) {
+        fibNew = fib1 + fib2
+        fib2 = fib1
+        fib1 = fibNew
     }
     return fibNew
 }
@@ -107,13 +107,13 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var minDiv=1
-    for (m in 2..n){
-        minDiv=m
-        if (n%m==0) break
-        }
-    return minDiv
+    var minDiv = 1
+    for (m in 2..n) {
+        minDiv = m
+        if (n % m == 0) break
     }
+    return minDiv
+}
 
 /**
  * Простая (2 балла)
@@ -122,9 +122,9 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var maxDiv = 1
-    for (m in n-1 downTo 1){
-        maxDiv=m
-        if (n%m==0) break
+    for (m in n - 1 downTo 1) {
+        maxDiv = m
+        if (n % m == 0) break
     }
     return maxDiv
 }
@@ -146,14 +146,14 @@ fun maxDivisor(n: Int): Int {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var number =x
-    var nextNum=x
-    var count=0
-    while (number!=1){
-        if (number % 2 == 0) nextNum = (number/2)
-        else nextNum= (3 * number + 1)
+    var number = x
+    var nextNum = x
+    var count = 0
+    while (number != 1) {
+        if (number % 2 == 0) nextNum = (number / 2)
+        else nextNum = (3 * number + 1)
         count++
-        number=nextNum
+        number = nextNum
     }
     return count
 }
@@ -167,11 +167,11 @@ fun collatzSteps(x: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var x = m
     var y = n
-    while ((x!=0)&&(y!=0)){
-        if (x>y) x=(x%y)
-        else y=(y%x)
+    while ((x != 0) && (y != 0)) {
+        if (x > y) x = (x % y)
+        else y = (y % x)
     }
-    return (m*n)/(x+y)
+    return (m * n) / (x + y)
 }
 
 /**
@@ -184,11 +184,11 @@ fun lcm(m: Int, n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var x = m
     var y = n
-    while ((x!=0)&&(y!=0)){
-        if (x>y) x=(x%y)
-        else y=(y%x)
+    while ((x != 0) && (y != 0)) {
+        if (x > y) x = (x % y)
+        else y = (y % x)
     }
-    return (x+y)==1
+    return (x + y) == 1
 }
 
 /**
@@ -202,13 +202,13 @@ fun revert(n: Int): Int {
     var power = -1
     var number = n
     var rev = 0.0
-    while (number>0){
+    while (number > 0) {
         number /= 10
         power += 1
     }
     number = n
-    while (number>0) {
-        rev += (number % 10) *(10.0).pow(power)
+    while (number > 0) {
+        rev += (number % 10) * (10.0).pow(power)
         power -= 1
         number /= 10
     }
@@ -223,20 +223,19 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean{
+fun isPalindrome(n: Int): Boolean {
     var num = n
-    var power =-1.0
-    while (num>0){
-        num/= 10
+    var power = -1.0
+    while (num > 0) {
+        num /= 10
         power += 1
     }
-    num=n
-    while (num>=10){
-        if (num/(10.0.pow(power)).toInt()==(num%10)) {
-            num=((num%(10.0.pow(power)))/10).toInt()
-            power=power-2
-        }
-        else return false
+    num = n
+    while (num >= 10) {
+        if (num / (10.0.pow(power)).toInt() == (num % 10)) {
+            num = ((num % (10.0.pow(power))) / 10).toInt()
+            power = power - 2
+        } else return false
     }
     return true
 }
@@ -251,13 +250,12 @@ fun isPalindrome(n: Int): Boolean{
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var digit = n % 10
-    var num =n / 10
-    while (num >0){
+    var num = n / 10
+    while (num > 0) {
         if (num % 10 != digit) {
             return true
             break
-        }
-        else num /= 10
+        } else num /= 10
     }
     return false
 }
@@ -271,7 +269,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double =TODO()
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя (4 балла)

@@ -19,9 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    return (number / 1000 + number / 100 % 10) == (number % 10 + number / 10 % 10)
-}
+fun isNumberHappy(number: Int): Boolean = (number / 1000 + number / 100 % 10) == (number % 10 + number / 10 % 10)
+
+
 /**
  * Простая (2 балла)
  *
@@ -29,13 +29,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (y1==y2) return true
-    else if (x1==x2) return true
-    else if ((x1+y1)==(x2+y2)) return true
-    else if ((x1-y1)==(x2-y2)) return true
-    else return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    ((y1 == y2) || (x1 == x2) || ((x1 + y1) == (x2 + y2)) || ((x1 - y1) == (x2 - y2)))
 
 
 /**
@@ -44,18 +39,17 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int  {
+fun daysInMonth(month: Int, year: Int): Int {
     var isLeapYear = false
     if (year % 4 == 0) {
         if (year % 100 == 0) {
             if (year % 400 == 0) isLeapYear = true
-        }
-        else isLeapYear = true
+        } else isLeapYear = true
     }
     if (month == 2) {
-        if (isLeapYear==true) return 29 else return 28
+        if (isLeapYear == true) return 29 else return 28
     }
-    if ((month==4) || (month==6) || (month==9) ||(month==11)) return 30 else return 31
+    if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) return 30 else return 31
 }
 
 /**
@@ -69,9 +63,9 @@ fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
 ): Boolean {
-    val up: Boolean = ((y1+r1)<=(y2+r2))
-    val down: Boolean = ((y1-r1)>=(y2-r2))
-    val left: Boolean = ((x1-r1)>=(y2-r2))
+    val up: Boolean = ((y1 + r1) <= (y2 + r2))
+    val down: Boolean = ((y1 - r1) >= (y2 - r2))
+    val left: Boolean = ((x1 - r1) >= (y2 - r2))
     val right: Boolean = ((x1 + r1) <= (x2 + r2))
     return (up && down && left && right)
 }
@@ -86,13 +80,13 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val maxRS = max(r,s)
-    val minRS = min (r,s)
-    val maxABC= maxOf(a,b,c)
-    val minABC= minOf(a,b,c)
+    val maxRS = max(r, s)
+    val minRS = min(r, s)
+    val maxABC = maxOf(a, b, c)
+    val minABC = minOf(a, b, c)
     val midABC = a + b + c - maxABC - minABC
-    if ((maxABC<=maxRS)&&(midABC<=minRS)) return true
-    else if ((maxABC<=maxRS)&&(minABC<=minRS)) return true
-    else if ((midABC<=maxRS)&&(minABC<=minRS)) return true
+    if ((maxABC <= maxRS) && (midABC <= minRS)) return true
+    else if ((maxABC <= maxRS) && (minABC <= minRS)) return true
+    else if ((midABC <= maxRS) && (minABC <= minRS)) return true
     else return false
 }

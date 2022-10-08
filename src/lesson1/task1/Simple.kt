@@ -4,6 +4,7 @@ package lesson1.task1
 
 import kotlin.math.*
 import kotlin.math.pow
+
 // Урок 1: простые функции
 // Максимальное количество баллов = 5
 // Рекомендуемое количество баллов = 4
@@ -84,7 +85,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
-    deg * PI / 180 + min * PI / (60 * 180) + sec * PI / (60 * 60 * 180)
+    (deg + min / 60.0 + sec / 3600.0) * (PI / 180.0)
 
 /**
  * Тривиальная (1 балл)
@@ -111,7 +112,7 @@ fun thirdDigit(number: Int): Int = (number % 1000) / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-    -minutesDepart + (hoursArrive - hoursDepart) *60 + minutesArrive
+    -minutesDepart + (hoursArrive - hoursDepart) * 60 + minutesArrive
 
 /**
  * Простая (2 балла)
@@ -130,4 +131,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double =
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int =
-    (number % 10) * 100 + (number / 100) + ((number/10)%10)*10
+    (number % 10) * 100 + (number / 100) + ((number / 10) % 10) * 10
