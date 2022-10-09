@@ -42,14 +42,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
 fun daysInMonth(month: Int, year: Int): Int {
     var isLeapYear = false
     if (year % 4 == 0) {
-        if (year % 100 == 0) {
-            if (year % 400 == 0) isLeapYear = true
-        } else isLeapYear = true
+        isLeapYear = if (year % 100 == 0) (year % 400 == 0) else true
     }
     if (month == 2) {
-        if (isLeapYear == true) return 29 else return 28
+        return if (isLeapYear) 29 else 28
     }
-    if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) return 30 else return 31
+    return if (month in setOf(4, 6, 9, 11)) 30 else 31
 }
 
 /**
@@ -62,13 +60,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean {
-    val up: Boolean = ((y1 + r1) <= (y2 + r2))
-    val down: Boolean = ((y1 - r1) >= (y2 - r2))
-    val left: Boolean = ((x1 - r1) >= (y2 - r2))
-    val right: Boolean = ((x1 + r1) <= (x2 + r2))
-    return (up && down && left && right)
-}
+): Boolean = TODO()
 
 /**
  * Средняя (3 балла)
@@ -85,8 +77,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val maxABC = maxOf(a, b, c)
     val minABC = minOf(a, b, c)
     val midABC = a + b + c - maxABC - minABC
-    if ((maxABC <= maxRS) && (midABC <= minRS)) return true
-    else if ((maxABC <= maxRS) && (minABC <= minRS)) return true
-    else if ((midABC <= maxRS) && (minABC <= minRS)) return true
-    else return false
+    return ((midABC <= maxRS) && (minABC <= minRS))
 }

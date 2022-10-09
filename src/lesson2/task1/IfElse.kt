@@ -139,14 +139,10 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    var threatCount1: Int = 0
-    var threatCount2: Int = 0
-    if ((kingX == rookX) || (kingY == rookY)) {
-        threatCount1 = 1
-    }
-    if ((kingX - kingY == bishopX - bishopY) || (kingX + kingY == bishopX + bishopY)) {
-        threatCount2 = 2
-    }
+    var threatCount1 = 0
+    var threatCount2 = 0
+    if ((kingX == rookX) || (kingY == rookY)) threatCount1 = 1
+    if ((kingX - kingY == bishopX - bishopY) || (kingX + kingY == bishopX + bishopY)) threatCount2 = 2
     return threatCount1 + threatCount2
 }
 

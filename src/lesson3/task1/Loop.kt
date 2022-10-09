@@ -73,15 +73,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int {
-    var count = 0
-    var number = n
-    do {
-        count++
-        number /= 10
-    } while (number > 0)
-    return count
-}
+fun digitNumber(n: Int): Int = TODO()
 
 /**
  * Простая (2 балла)
@@ -147,7 +139,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun collatzSteps(x: Int): Int {
     var number = x
-    var nextNum = x
+    var nextNum: Int
     var count = 0
     while (number != 1) {
         if (number % 2 == 0) nextNum = (number / 2)
@@ -249,12 +241,11 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var digit = n % 10
+    val digit = n % 10
     var num = n / 10
     while (num > 0) {
         if (num % 10 != digit) {
             return true
-            break
         } else num /= 10
     }
     return false
