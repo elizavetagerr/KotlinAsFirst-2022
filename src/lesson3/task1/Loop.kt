@@ -100,7 +100,8 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var minDiv = 1
-    for (m in 2..n) {
+    if (isPrime(n)) return n
+    for (m in 2..(sqrt(n.toDouble())).toInt()) {
         minDiv = m
         if (n % m == 0) break
     }
@@ -112,14 +113,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var maxDiv = 1
-    for (m in n - 1 downTo 1) {
-        maxDiv = m
-        if (n % m == 0) break
-    }
-    return maxDiv
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -139,13 +133,11 @@ fun maxDivisor(n: Int): Int {
  */
 fun collatzSteps(x: Int): Int {
     var number = x
-    var nextNum: Int
     var count = 0
     while (number != 1) {
-        if (number % 2 == 0) nextNum = (number / 2)
-        else nextNum = (3 * number + 1)
+        if (number % 2 == 0) number /= 2
+        else number = (3 * number + 1)
         count++
-        number = nextNum
     }
     return count
 }
@@ -156,13 +148,22 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+private fun pair(x: Int, y: Int): Pair<Int, Int> {
+    var x1 = x
+    var y1 = y
+    while ((x1 != 0) && (y1 != 0)) {
+        if (x1 > y1) x1 = (x1 % y1)
+        else y1 = (y1 % x1)
+    }
+    return Pair(x1, y1)
+}
+
 fun lcm(m: Int, n: Int): Int {
     var x = m
     var y = n
-    while ((x != 0) && (y != 0)) {
-        if (x > y) x = (x % y)
-        else y = (y % x)
-    }
+    val pair = pair(x, y)
+    x = pair.first
+    y = pair.second
     return (m * n) / (x + y)
 }
 
@@ -173,13 +174,13 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
+
 fun isCoPrime(m: Int, n: Int): Boolean {
     var x = m
     var y = n
-    while ((x != 0) && (y != 0)) {
-        if (x > y) x = (x % y)
-        else y = (y % x)
-    }
+    val pair = pair(x, y)
+    x = pair.first
+    y = pair.second
     return (x + y) == 1
 }
 
@@ -194,17 +195,23 @@ fun revert(n: Int): Int {
     var power = -1
     var number = n
     var rev = 0.0
-    while (number > 0) {
-        number /= 10
-        power += 1
-    }
-    number = n
+    power += countDigits(n)
     while (number > 0) {
         rev += (number % 10) * (10.0).pow(power)
         power -= 1
         number /= 10
     }
     return rev.toInt()
+}
+
+fun countDigits(i: Int):Int {
+    var len = 0
+    var num = i
+    while (num > 0) {
+        num /= 10
+        len += 1
+    }
+    return len
 }
 
 /**
@@ -218,11 +225,7 @@ fun revert(n: Int): Int {
 fun isPalindrome(n: Int): Boolean {
     var num = n
     var power = -1.0
-    while (num > 0) {
-        num /= 10
-        power += 1
-    }
-    num = n
+    power+=countDigits(n).toDouble()
     while (num >= 10) {
         if (num / (10.0.pow(power)).toInt() == (num % 10)) {
             num = ((num % (10.0.pow(power))) / 10).toInt()
