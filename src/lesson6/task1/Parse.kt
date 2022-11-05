@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -29,6 +31,7 @@ fun timeStrToSeconds(str: String): Int {
  * Дано число n от 0 до 99.
  * Вернуть его же в виде двухсимвольной строки, от "00" до "99"
  */
+
 fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
 
 /**
@@ -74,7 +77,31 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    return if (parts.size != 3) ""
+    else {
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val mon = listOf(
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"
+        )
+        val month = mon.indexOf(parts[1]) + 1
+        if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%04d", day, month, year)
+        else ""
+    }
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +113,42 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    try {
+        return if (parts.size != 3) ""
+        else {
+            val day = parts[0].toInt()
+            val year = parts[2].toInt()
+            val mon = listOf(
+                "",
+                "января",
+                "февраля",
+                "марта",
+                "апреля",
+                "мая",
+                "июня",
+                "июля",
+                "августа",
+                "сентября",
+                "октября",
+                "ноября",
+                "декабря"
+            )
+            val month = mon[parts[1].toInt()]
+            if ((day <= daysInMonth(parts[1].toInt(), year)) && (parts[1].toInt() in 1..12)) String.format(
+                "%d %s %d",
+                day,
+                month,
+                year
+            )
+            else ""
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
+
 
 /**
  * Средняя (4 балла)
@@ -102,7 +164,24 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var result = ""
+    val d = phone.indexOf(")") - phone.indexOf("(")
+    if ((d < 2) && (d != 0)) return ""
+    for (i in phone) {
+        if (i.isDigit()) result += i
+        else if (i !in listOf(' ', '(', '+', '-', ')')) return ""
+    }
+    return if (phone[0] == '+') "+$result" else result
+}
+
+
+fun isNumeric(str: String): Boolean {
+    for (i in str) {
+        if (!i.isDigit()) return false
+    }
+    return true
+}
 
 /**
  * Средняя (5 баллов)
@@ -114,7 +193,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (i in jumps) {
+        if ((!i.isDigit()) && (i !in listOf('%', ' ', '-'))) return -1
+    }
+    val jump = jumps.split(' ')
+    val jumpLen = mutableListOf<Int>()
+    for (str in jump) {
+        if (isNumeric(str)) jumpLen += str.toInt()
+    }
+    return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
+}
+
 
 /**
  * Сложная (6 баллов)
@@ -127,7 +217,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    for (i in jumps) {
+        if ((!i.isDigit()) && (i !in listOf('%', ' ', '-', '+'))) return -1
+    }
+    val jump = jumps.split(' ')
+    val jumpLen = mutableListOf<Int>()
+    for (i in jump.indices) {
+        if ((isNumeric(jump[i])) && ('+' in jump[i + 1])) jumpLen += jump[i].toInt()
+    }
+    return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
+}
 
 /**
  * Сложная (6 баллов)
