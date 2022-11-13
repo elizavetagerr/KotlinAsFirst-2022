@@ -78,28 +78,32 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val parts = str.split(" ")
-    return if (parts.size != 3) ""
-    else {
-        val day = parts[0].toInt()
-        val year = parts[2].toInt()
-        val mon = listOf(
-            "января",
-            "февраля",
-            "марта",
-            "апреля",
-            "мая",
-            "июня",
-            "июля",
-            "августа",
-            "сентября",
-            "октября",
-            "ноября",
-            "декабря"
-        )
-        val month = mon.indexOf(parts[1]) + 1
-        if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%d", day, month, year)
-        else ""
+    try {
+        val parts = str.split(" ")
+        return if (parts.size != 3) ""
+        else {
+            val day = parts[0].toInt()
+            val year = parts[2].toInt()
+            val mon = listOf(
+                "января",
+                "февраля",
+                "марта",
+                "апреля",
+                "мая",
+                "июня",
+                "июля",
+                "августа",
+                "сентября",
+                "октября",
+                "ноября",
+                "декабря"
+            )
+            val month = mon.indexOf(parts[1]) + 1
+            if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%d", day, month, year)
+            else ""
+        }
+    } catch (e: java.lang.NumberFormatException) {
+        return ""
     }
 }
 
@@ -167,7 +171,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone=="") return ""
+    if (phone == "") return ""
     var result = ""
     val d = phone.indexOf(")") - phone.indexOf("(")
     if ((d < 2) && (d != 0)) return ""
@@ -207,8 +211,7 @@ fun bestLongJump(jumps: String): Int {
             if (isNumeric(str)) jumpLen += str.toInt()
         }
         return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
-    }
-    catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return -1
     }
 }
