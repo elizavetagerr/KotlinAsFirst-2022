@@ -98,7 +98,7 @@ fun dateStrToDigit(str: String): String {
             "декабря"
         )
         val month = mon.indexOf(parts[1]) + 1
-        if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%04d", day, month, year)
+        if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%d", day, month, year)
         else ""
     }
 }
@@ -120,6 +120,9 @@ fun dateDigitToStr(digital: String): String {
         else {
             val day = parts[0].toInt()
             val year = parts[2].toInt()
+            if ((day > daysInMonth(parts[1].toInt(), year)) || (parts[1].toInt() !in 1..12)) {
+                return ""
+            }
             val mon = listOf(
                 "",
                 "января",
@@ -136,13 +139,12 @@ fun dateDigitToStr(digital: String): String {
                 "декабря"
             )
             val month = mon[parts[1].toInt()]
-            if ((day <= daysInMonth(parts[1].toInt(), year)) && (parts[1].toInt() in 1..12)) String.format(
+            return String.format(
                 "%d %s %d",
                 day,
                 month,
                 year
             )
-            else ""
         }
     } catch (e: NumberFormatException) {
         return ""
@@ -165,6 +167,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
+    if (phone=="") return ""
     var result = ""
     val d = phone.indexOf(")") - phone.indexOf("(")
     if ((d < 2) && (d != 0)) return ""
@@ -194,15 +197,20 @@ fun isNumeric(str: String): Boolean {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    for (i in jumps) {
-        if ((!i.isDigit()) && (i !in listOf('%', ' ', '-'))) return -1
+    try {
+        for (i in jumps) {
+            if ((!i.isDigit()) && (i !in listOf('%', ' ', '-'))) return -1
+        }
+        val jump = jumps.split(' ')
+        val jumpLen = mutableListOf<Int>()
+        for (str in jump) {
+            if (isNumeric(str)) jumpLen += str.toInt()
+        }
+        return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
     }
-    val jump = jumps.split(' ')
-    val jumpLen = mutableListOf<Int>()
-    for (str in jump) {
-        if (isNumeric(str)) jumpLen += str.toInt()
+    catch (e: NumberFormatException){
+        return -1
     }
-    return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
 }
 
 
@@ -237,6 +245,7 @@ fun bestHighJump(jumps: String): Int {
  * Наличие двух знаков подряд "13 + + 10" или двух чисел подряд "1 2" не допускается.
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
+ * Оно случается когда JVM пытается передать методу неподходящий аргумент или аргумент неправильного типа.
  */
 fun plusMinus(expression: String): Int = TODO()
 

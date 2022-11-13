@@ -41,6 +41,7 @@ class Tests {
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("", dateStrToDigit("32 сентября 2011"))
         assertEquals("", dateStrToDigit("29 февраля 1993"))
+        assertEquals("01.01.1", dateStrToDigit("1 января 1"))
     }
 
     @Test
@@ -53,6 +54,8 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateDigitToStr("32.09.2011"))
         assertEquals("", dateDigitToStr("29.02.1993"))
+        assertEquals("", dateDigitToStr("01.18.1"))
+
     }
 
     @Test
@@ -66,6 +69,7 @@ class Tests {
         assertEquals("+42566789", flattenPhoneNumber("+42(56 -- 67)89"))
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber(""))
     }
 
     @Test
@@ -75,6 +79,7 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
+        assertEquals(-1, bestLongJump(""))
 
     }
 

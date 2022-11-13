@@ -4,7 +4,6 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
-import java.util.function.ToDoubleFunction
 import kotlin.math.*
 
 // Урок 4: списки
@@ -129,7 +128,7 @@ fun abs(v: List<Double>): Double = sqrt((v.map { it * it }).sum())
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isNotEmpty()) (list.sum() / list.size) else 0.0
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else (list.sum() / list.size)
 
 
 /**
@@ -244,13 +243,12 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
-    var count = 0
     val result = mutableListOf<Int>()
     while (number > 0) {
         result.add(number % base)
         number /= base
     }
-    return result.reversed()
+    return if (result.isNotEmpty()) result.reversed() else listOf(0)
 }
 
 /**
@@ -307,7 +305,34 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val abc =
-    mutableListOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+        mutableListOf(
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
+        )
     val dec = mutableListOf<Int>()
     for (i in str) {
         if (i.isDigit()) dec.add(i.digitToInt())

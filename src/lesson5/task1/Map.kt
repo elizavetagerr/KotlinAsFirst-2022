@@ -106,9 +106,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
             result[grade] = result[grade]!! + name
         } else result[grade] = mutableListOf(name)
     }
+
     return result
 }
-
 
 /**
  * Простая (2 балла)

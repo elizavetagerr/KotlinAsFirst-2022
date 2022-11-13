@@ -148,23 +148,18 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-private fun pair(x: Int, y: Int): Pair<Int, Int> {
+private fun euclid(x: Int, y: Int): Int {
     var x1 = x
     var y1 = y
     while ((x1 != 0) && (y1 != 0)) {
         if (x1 > y1) x1 = (x1 % y1)
         else y1 = (y1 % x1)
     }
-    return Pair(x1, y1)
+    return (x1 + y1)
 }
 
 fun lcm(m: Int, n: Int): Int {
-    var x = m
-    var y = n
-    val pair = pair(x, y)
-    x = pair.first
-    y = pair.second
-    return (m * n) / (x + y)
+    return (m * n) / euclid(m, n)
 }
 
 /**
@@ -175,14 +170,7 @@ fun lcm(m: Int, n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var x = m
-    var y = n
-    val pair = pair(x, y)
-    x = pair.first
-    y = pair.second
-    return (x + y) == 1
-}
+fun isCoPrime(m: Int, n: Int): Boolean = euclid(m, n) == 1
 
 /**
  * Средняя (3 балла)
@@ -204,7 +192,7 @@ fun revert(n: Int): Int {
     return rev.toInt()
 }
 
-fun countDigits(i: Int):Int {
+fun countDigits(i: Int): Int {
     var len = 0
     var num = i
     while (num > 0) {
@@ -225,7 +213,7 @@ fun countDigits(i: Int):Int {
 fun isPalindrome(n: Int): Boolean {
     var num = n
     var power = -1.0
-    power+=countDigits(n).toDouble()
+    power += countDigits(n).toDouble()
     while (num >= 10) {
         if (num / (10.0.pow(power)).toInt() == (num % 10)) {
             num = ((num % (10.0.pow(power))) / 10).toInt()
