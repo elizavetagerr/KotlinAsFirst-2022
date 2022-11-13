@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import lesson4.task1.mean
+import ru.spbstu.wheels.NullableMonad.filter
 import ru.spbstu.wheels.toMutableMap
 
 // Урок 5: ассоциативные массивы и множества
@@ -102,11 +103,8 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val result = mutableMapOf<Int, List<String>>()
     for ((name, grade) in grades) {
-        if (grade in result.keys) {
-            result[grade] = result[grade]!! + name
-        } else result[grade] = mutableListOf(name)
+        result[grade] = result.getOrDefault(grade, mutableListOf()) + name
     }
-
     return result
 }
 
@@ -121,9 +119,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    val bCopy = b.toMutableMap()
     for (k in a.keys) {
-        if ((k in bCopy.keys) && (b[k] == a[k])) bCopy.remove(k)
+        if ((k in b.keys) && (b[k] == a[k])) b - k
         else return false
     }
     return true
@@ -198,19 +195,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val result = mutableMapOf<String, Double>()
-    val meanList = mutableMapOf<String, List<Double>>()
-    for ((name, price) in stockPrices) {
-        result[name] = price
-        if (name in meanList.keys) {
-            meanList[name] = meanList[name]!! + price
-        } else meanList[name] = mutableListOf(price)
-        result[name] = mean(meanList[name]!!)
-    }
-
-    return result
-}
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> =
+    stockPrices.groupBy { it.first }.mapValues { it -> it.value.sumOf { it.second } / it.value.size }
 
 /**
  * Средняя (4 балла)
@@ -258,15 +244,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
-    val result = mutableMapOf<String, Int>()
-    for (letter in list) {
-        if (letter in result.keys) {
-            result[letter] = result[letter]!! + 1
-        } else result[letter] = 1
-    }
-    return result.filter { it.value > 1 }
-}
+fun extractRepeats(list: List<String>): Map<String, Int> =
+    list.groupBy { it }.mapValues { it.value.size }.filterValues { it > 1 }
 
 /**
  * Средняя (3 балла)
@@ -281,7 +260,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    for (i in 0 until words.size) {
+    for (i in words.indices) {
         for (j in i + 1 until words.size) {
             if ((words[i].length == words[j].length) && (words[i].toSet() == words[j].toSet())) {
                 return true
