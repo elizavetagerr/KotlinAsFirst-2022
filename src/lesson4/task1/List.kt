@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import java.lang.StringBuilder
 import kotlin.math.*
 
 // Урок 4: списки
@@ -264,14 +265,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val conv = convert(n, base)
-    var result = ""
-    var x: Char
+    var result = StringBuilder()
+    var x: String
     for (i in conv) {
-        x = i.toChar()
-        if (i >= 10) x = 'a' + i - 10
-        result += x
+        x = i.toString()
+        if (i >= 10) x = ('a' + i - 10).toString()
+        result.append(x)
     }
-    return result
+    return result.toString()
 }
 
 /**
@@ -303,39 +304,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val abc =
-        mutableListOf(
-            'a',
-            'b',
-            'c',
-            'd',
-            'e',
-            'f',
-            'g',
-            'h',
-            'i',
-            'j',
-            'k',
-            'l',
-            'm',
-            'n',
-            'o',
-            'p',
-            'q',
-            'r',
-            's',
-            't',
-            'u',
-            'v',
-            'w',
-            'x',
-            'y',
-            'z'
-        )
     val dec = mutableListOf<Int>()
     for (i in str) {
         if (i.isDigit()) dec.add(i.digitToInt())
-        else dec.add(abc.indexOf(i) + 10)
+        else dec.add(i - 'a' + 10)
     }
     return decimal(dec, base)
 }

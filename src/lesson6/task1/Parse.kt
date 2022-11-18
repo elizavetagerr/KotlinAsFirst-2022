@@ -79,34 +79,36 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    try {
-        val parts = str.split(" ")
-        return if (parts.size != 3) ""
-        else {
-            val day = parts[0].toInt()
-            val year = parts[2].toInt()
-            val mon = listOf(
-                "января",
-                "февраля",
-                "марта",
-                "апреля",
-                "мая",
-                "июня",
-                "июля",
-                "августа",
-                "сентября",
-                "октября",
-                "ноября",
-                "декабря"
-            )
-            val month = mon.indexOf(parts[1]) + 1
-            if ((day <= daysInMonth(month, year)) && (month != 0)) String.format("%02d.%02d.%d", day, month, year)
-            else ""
-        }
-    } catch (e: java.lang.NumberFormatException) {
-        return ""
+    val parts = str.split(" ")
+    return if (parts.size != 3) ""
+    else {
+        val day = parts[0].toIntOrNull()
+        val year = parts[2].toInt()
+        val mon = listOf(
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"
+        )
+        val month = mon.indexOf(parts[1]) + 1
+        if ((day in 1..daysInMonth(month, year)) && (month != 0) && (year > 0)) String.format(
+            "%02d.%02d.%d",
+            day,
+            month,
+            year
+        )
+        else ""
     }
 }
+
 
 /**
  * Средняя (4 балла)
