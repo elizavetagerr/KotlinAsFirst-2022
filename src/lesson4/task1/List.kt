@@ -263,13 +263,12 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    val abc = "abcdefghijklmnopqrstuvwxyz"
     val conv = convert(n, base)
     var result = ""
-    var x: String
+    var x: Char
     for (i in conv) {
-        x = i.toString()
-        if (i >= 10) x = (abc[i - 10]).toString()
+        x = i.toChar()
+        if (i >= 10) x = 'a' + i - 10
         result += x
     }
     return result
