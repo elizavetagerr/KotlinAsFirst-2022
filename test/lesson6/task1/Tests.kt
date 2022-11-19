@@ -42,6 +42,7 @@ class Tests {
         assertEquals("", dateStrToDigit("32 сентября 2011"))
         assertEquals("", dateStrToDigit("29 февраля 1993"))
         assertEquals("01.01.1", dateStrToDigit("1 января 1"))
+        assertEquals("", dateStrToDigit("swerdtfgyuhijokpl;8u7y6t5r4e3waesdfxcgho2"))
     }
 
     @Test
@@ -66,10 +67,10 @@ class Tests {
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("+12 () 4-5"))
         assertEquals("+425667", flattenPhoneNumber("+42 56 -- 67"))
-        assertEquals("+42566789", flattenPhoneNumber("+42(56 -- 67)89"))
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("", flattenPhoneNumber("134_+874"))
         assertEquals("", flattenPhoneNumber(""))
+        assertEquals("+42566789", flattenPhoneNumber("+42(56 -- 67)89"))
     }
 
     @Test
@@ -80,6 +81,7 @@ class Tests {
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
         assertEquals(-1, bestLongJump(""))
+        assertEquals(55, bestLongJump("1%66 55"))
 
     }
 
@@ -112,6 +114,7 @@ class Tests {
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
+        assertEquals(0, firstDuplicateIndex("a a"))
     }
 
     @Test

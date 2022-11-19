@@ -3,7 +3,7 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import java.util.*
+import java.lang.StringBuilder
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -79,36 +79,48 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val parts = str.split(" ")
-    return if (parts.size != 3) ""
-    else {
-        val day = parts[0].toIntOrNull()
-        val year = parts[2].toInt()
-        val mon = listOf(
-            "января",
-            "февраля",
-            "марта",
-            "апреля",
-            "мая",
-            "июня",
-            "июля",
-            "августа",
-            "сентября",
-            "октября",
-            "ноября",
-            "декабря"
-        )
-        val month = mon.indexOf(parts[1]) + 1
-        if ((day in 1..daysInMonth(month, year)) && (month != 0) && (year > 0)) String.format(
+    var parts = str.split(" ")
+    if (parts.size != 3) return ""
+    parts = parts.toMutableList()
+    parts[1] = (mon.indexOf(parts[1]) + 1).toString()
+    if (checkData(parts)) {
+        return String.format(
             "%02d.%02d.%d",
-            day,
-            month,
-            year
+            parts[0].toInt(),
+            parts[1].toInt(),
+            parts[2].toInt()
         )
-        else ""
-    }
+    } else return ""
 }
 
+val mon = listOf(
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+)
+
+fun checkData(parts: List<String>): Boolean {
+    if (parts.size != 3) return false
+    val day = parts[0].toIntOrNull()
+    val year = parts[2].toIntOrNull()
+    val month = parts[1].toIntOrNull()
+    return when {
+        ((day == null) || (year == null) || (month == null)) -> false
+        (month !in 1..12) -> false
+        (year < 1) -> false
+        ((day !in 1..daysInMonth(month, year))) -> false
+        else -> true
+    }
+}
 
 /**
  * Средняя (4 балла)
@@ -122,40 +134,15 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    try {
-        return if (parts.size != 3) ""
-        else {
-            val day = parts[0].toInt()
-            val year = parts[2].toInt()
-            if ((day > daysInMonth(parts[1].toInt(), year)) || (parts[1].toInt() !in 1..12)) {
-                return ""
-            }
-            val mon = listOf(
-                "",
-                "января",
-                "февраля",
-                "марта",
-                "апреля",
-                "мая",
-                "июня",
-                "июля",
-                "августа",
-                "сентября",
-                "октября",
-                "ноября",
-                "декабря"
-            )
-            val month = mon[parts[1].toInt()]
-            return String.format(
-                "%d %s %d",
-                day,
-                month,
-                year
-            )
-        }
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    return if (checkData(parts)) {
+        val month = mon[parts[1].toInt() - 1]
+        String.format(
+            "%d %s %d",
+            parts[0].toInt(),
+            month,
+            parts[2].toInt()
+        )
+    } else ""
 }
 
 
@@ -174,15 +161,13 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone == "") return ""
-    var result = ""
-    val d = phone.indexOf(")") - phone.indexOf("(")
-    if ((d < 2) && (d != 0)) return ""
-    for (i in phone) {
-        if (i.isDigit()) result += i
-        else if (i !in listOf(' ', '(', '+', '-', ')')) return ""
-    }
-    return if (phone[0] == '+') "+$result" else result
+    val result = StringBuilder()
+    if (phone.matches(Regex("""(\+\d+ *)?(\([\d\s\-]+\))?[\d\s\-]+"""))) {
+        for (i in phone) {
+            if (i.isDigit()) result.append(i)
+        }
+    } else return ""
+    return if (phone.first() == '+') result.insert(0, "+").toString() else result.toString()
 }
 
 
@@ -266,9 +251,7 @@ fun plusMinus(expression: String): Int = TODO()
  */
 fun firstDuplicateIndex(str: String): Int {
     val str1 = str.lowercase()
-    val result = Regex("""\s([a-я]+)\s\1""").find(str1)?.range?.first
-    println(result)
-    return if (result == null) -1 else result + 1
+    return Regex("""([a-я]+)\s\1""").find(str1)?.range?.first ?: -1
 }
 
 /**
