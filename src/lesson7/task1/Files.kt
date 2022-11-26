@@ -461,10 +461,14 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val factor2 = rhv.toString()
     var rhvCopy = rhv
     val writer = File(outputName).bufferedWriter()
-    val lineLen = factor1.length + factor2.length
-    writer.write(" ".repeat(lineLen - factor1.length) + factor1)
+    val lineLen = maxOf(
+        factor1.length + factor2.length,
+        (lhv * rhv).toString().length,
+        ((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
+    )
+    writer.write(factor1.padStart(lineLen))
     writer.newLine()
-    writer.write("*" + " ".repeat(lineLen - factor2.length - 1) + factor2)
+    writer.write("*" + factor2.padStart(lineLen - 1))
     writer.newLine()
     writer.write("-".repeat(lineLen))
     writer.newLine()
@@ -472,8 +476,8 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     while (rhvCopy > 0) {
         val factor = (lhv * (rhvCopy % 10)).toString()
         if (count > 0) {
-            writer.write("+" + " ".repeat(lineLen - factor.length - count - 1) + factor)
-        } else writer.write(" ".repeat(lineLen - factor.length) + factor)
+            writer.write("+" + factor.padStart(lineLen - count - 1))
+        } else writer.write(factor.padStart(lineLen))
         writer.newLine()
         count += 1
         rhvCopy /= 10
@@ -481,8 +485,9 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     writer.write("-".repeat(lineLen))
     writer.newLine()
     val result = (rhv * lhv).toString()
-    writer.write(" ".repeat(lineLen - result.length) + result)
+    writer.write(result.padStart(lineLen))
     writer.newLine()
+
     writer.close()
 }
 
