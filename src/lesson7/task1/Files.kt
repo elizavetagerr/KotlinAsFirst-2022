@@ -130,7 +130,13 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer=File(outputName).bufferedWriter()
+    val list= File(inputName).readLines()
+    for(line in File(inputName).readLines()){
+        writer.write((" ").repeat((list.max().length) / 2 - (line.trim().length) / 2) + line.trim())
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -455,6 +461,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
 -----
 2350
  *
+Output:
+"     32719
+ *    38649
+ *    ----------
+ *    294471
+ *    +  130876
+ *    + 196314
+ *    +261752
+ *    +98157
+ *    ----------
+ *    1264556631"
+Expected output:
+"      32719
+ *     38649
+ *     -----------
+ *     294471
+ *     +   130876\n+  196314\n+ 261752\n+ 98157\n-----------\n 1264556631"
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val factor1 = lhv.toString()
