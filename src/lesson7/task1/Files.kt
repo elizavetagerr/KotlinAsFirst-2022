@@ -133,7 +133,7 @@ fun centerFile(inputName: String, outputName: String) {
     val writer=File(outputName).bufferedWriter()
     val list= File(inputName).readLines()
     for(line in File(inputName).readLines()){
-        writer.write((" ").repeat((list.max().length) / 2 - (line.trim().length) / 2) + line.trim())
+        writer.write((" ").repeat((list.max().trim().length) / 2 - (line.trim().length) / 2) + line.trim())
         writer.newLine()
     }
     writer.close()
