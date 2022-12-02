@@ -189,19 +189,7 @@ fun isNumeric(str: String): Boolean {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    try {
-        for (i in jumps) {
-            if ((!i.isDigit()) && (i !in listOf('%', ' ', '-'))) return -1
-        }
-        val jump = jumps.split(' ')
-        val jumpLen = mutableListOf<Int>()
-        for (str in jump) {
-            if (isNumeric(str)) jumpLen += str.toInt()
-        }
-        return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
-    } catch (e: NumberFormatException) {
-        return -1
-    }
+    TODO()
 }
 
 
@@ -217,15 +205,7 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    for (i in jumps) {
-        if ((!i.isDigit()) && (i !in listOf('%', ' ', '-', '+'))) return -1
-    }
-    val jump = jumps.split(' ')
-    val jumpLen = mutableListOf<Int>()
-    for (i in jump.indices) {
-        if ((isNumeric(jump[i])) && ('+' in jump[i + 1])) jumpLen += jump[i].toInt()
-    }
-    return if (jumpLen.isNotEmpty()) jumpLen.max() else -1
+    TODO()
 }
 
 /**

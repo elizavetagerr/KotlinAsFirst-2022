@@ -2,6 +2,7 @@
 
 package lesson1.task1
 
+import java.lang.IllegalArgumentException
 import kotlin.math.*
 import kotlin.math.pow
 
@@ -132,3 +133,16 @@ fun accountInThreeYears(initial: Int, percent: Int): Double =
  */
 fun numberRevert(number: Int): Int =
     (number % 10) * 100 + (number / 100) + ((number / 10) % 10) * 10
+
+fun myFun(taxes:String, money:Int): Int {
+    var tax= mutableListOf<String>()
+    var tarif= mutableListOf<String>()
+
+    if (Regex("""((\d+ ((у.е.)){1} \-(\d)+%);)+((else) \-(\d)+%)""").matches(taxes)){
+        tax= taxes.split(";") as MutableList<String>
+
+    }
+    //else throw IllegalArgumentException)("")
+
+    return 0
+}

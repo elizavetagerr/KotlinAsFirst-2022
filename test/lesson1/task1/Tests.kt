@@ -1,5 +1,6 @@
 package lesson1.task1
 
+import lesson5.task1.buildGrades
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -105,4 +106,17 @@ class Tests {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
     }
+    @Test
+    fun myFun() {
+        assertEquals(
+            mapOf<Int, List<String>>(),
+            buildGrades(mapOf())
+        )
+        assertEquals(
+            mapOf(5 to listOf("Михаил", "Семён"), 3 to listOf("Марат")),
+            buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
+                .mapValues { (_, v) -> v.sorted() }
+        )
+    }
 }
+

@@ -254,7 +254,6 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     var listMax = mutableSetOf<String>()
     var maxx = 0
-    //var newLine = File(inputName).readLines().filter{it.lowercase().toSet().size==it.length}
     for (line in File(inputName).readLines()) {
         if (line.lowercase().toSet().size == line.length) {
             if (line.length > maxx) {
@@ -481,7 +480,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val lineLen = maxOf(
         factor1.length + factor2.length,
-        (lhv * rhv).toString().length,
+        (lhv * rhv).toString().length+1,
         ((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
     )
     writer.write(factor1.padStart(lineLen))
