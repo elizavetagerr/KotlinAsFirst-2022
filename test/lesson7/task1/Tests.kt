@@ -325,7 +325,7 @@ Basic, Ruby, Swift.
         markdownToHtml("input/markdown_lists.md", "temp.html")
         checkHtmlListsExample()
     }
-
+    //"      2873\n*    38648\n----------\n     22984\n+   11492\n+  17238\n+ 22984\n+ 8619\n----------\n 111035704"
     @Test
     @Tag("12")
     fun printMultiplicationProcess() {
@@ -377,8 +377,8 @@ Basic, Ruby, Swift.
              """
         )
         test(
-            41824,
-            35266,
+            2873,
+            38648,
             """
                    41824
              *     35266
