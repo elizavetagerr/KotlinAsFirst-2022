@@ -86,7 +86,13 @@ fun deleteMarked(inputName: String, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val count = mutableMapOf<String, Int>()
+    val str = File(inputName).readLines().toString().lowercase()
+    for (word in substrings) {
+        println("12345678".windowed(5, 1))
+        count[word] = str.split(word.lowercase()).count() - 1
+    }
+    return count
 }
 
 
@@ -127,8 +133,9 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val list = File(inputName).readLines()
-    for (line in File(inputName).readLines()) {
-        writer.write((" ").repeat(((list.maxOf { it.length }) / 2) - ((line.trim().length) / 2)) + line.trim())
+    for (line in list) {
+        val max = (list.maxOf { it.trim().length })
+        writer.write((" ").repeat(max / 2 - ((line.trim().length) / 2)) + line.trim())
         writer.newLine()
     }
     writer.close()
@@ -252,15 +259,17 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    var listMax = mutableSetOf<String>()
+    var listMax = mutableListOf<String>()
     var maxx = 0
     for (line in File(inputName).readLines()) {
         if (line.lowercase().toSet().size == line.length) {
+            var repeatFlag = false
             if (line.length > maxx) {
                 maxx = line.length
-                listMax = mutableSetOf(line)
+                listMax = mutableListOf(line)
+                repeatFlag = true
             }
-            if (line.length == maxx) {
+            if ((line.length == maxx) &&(!repeatFlag)) {
                 listMax.add(line)
             }
         }
@@ -480,7 +489,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val lineLen = maxOf(
         factor1.length + factor2.length,
-        (lhv * rhv).toString().length+1,
+        (lhv * rhv).toString().length + 1,
         ((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
     )
     writer.write(factor1.padStart(lineLen))

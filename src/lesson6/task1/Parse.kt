@@ -117,7 +117,7 @@ fun checkData(parts: List<String>): Boolean {
         ((day == null) || (year == null) || (month == null)) -> false
         (month !in 1..12) -> false
         (year < 1) -> false
-        ((day !in 1..daysInMonth(month, year))) -> false
+        (((day !in (1..daysInMonth(month, year))))) -> false
         else -> true
     }
 }
@@ -171,13 +171,6 @@ fun flattenPhoneNumber(phone: String): String {
 }
 
 
-fun isNumeric(str: String): Boolean {
-    for (i in str) {
-        if (!i.isDigit()) return false
-    }
-    return true
-}
-
 /**
  * Средняя (5 баллов)
  *
@@ -188,10 +181,19 @@ fun isNumeric(str: String): Boolean {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
+
 fun bestLongJump(jumps: String): Int {
-    TODO()
+    return if (Regex("""((\d)+ ([-% ]*)+)+(\d+)?""").matches(jumps)) {
+        ((jumps.split(" ").filter { isNumeric(it) }.map { it -> it.toInt() }).max())
+    } else -1
 }
 
+fun isNumeric(str: String): Boolean {
+    for (i in str) {
+        if (!i.isDigit()) return false
+    }
+    return true
+}
 
 /**
  * Сложная (6 баллов)
@@ -205,7 +207,16 @@ fun bestLongJump(jumps: String): Int {
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    TODO()
+    return if (Regex("""((\d)+ ([-% +])+)+(\d+)?""").matches(jumps)) {
+        var max = -1
+        val jump = jumps.split(" ")
+        for (i in 0..jump.size - 2) {
+            if (('+' in jump[i + 1]) && (isNumeric(jump[i].trim()))) {
+                max = maxOf(max, jump[i].toInt())
+            }
+        }
+        max
+    } else -1
 }
 
 /**
@@ -231,7 +242,7 @@ fun plusMinus(expression: String): Int = TODO()
  */
 fun firstDuplicateIndex(str: String): Int {
     val str1 = str.lowercase()
-    return Regex("""([a-я]+)\s\1""").find(str1)?.range?.first ?: -1
+    return Regex("""((\S)+)\s\1""").find(str1)?.range?.first ?: -1
 }
 
 /**
