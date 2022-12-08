@@ -4,6 +4,7 @@ package lesson5.task1
 
 import lesson4.task1.mean
 import ru.spbstu.wheels.NullableMonad.filter
+import ru.spbstu.wheels.sorted
 import ru.spbstu.wheels.toMutableMap
 
 // Урок 5: ассоциативные массивы и множества
@@ -305,6 +306,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 
+
 /**
  * Сложная (6 баллов)
  *
@@ -322,7 +324,21 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val difMap = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        difMap[number - list[i]] = i
+    }
+    for (i in list.indices) {
+        if (list[i] in difMap.keys) {
+            if (difMap[list[i]] != i) {
+                return Pair(difMap[list[i]]!!, i).sorted()
+            }
+        }
+    }
+    return Pair(-1, -1)
+}
+
 
 /**
  * Очень сложная (8 баллов)

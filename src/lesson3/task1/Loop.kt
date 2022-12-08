@@ -251,7 +251,29 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var last = x
+    var power = 1
+    var n = 1
+    var sinus = 0.0
+    println((PI*100)%PI)
+    if (x % PI  == 0.0) {
+        println(1)
+        return 0.0
+    }
+    if (x % (PI / 2.0) == 0.0) {
+        println(2)
+            if ((x / (PI / 2)) % 4 == 1.0) return 1.0
+            if ((x / (PI / 2)) % 4 == 3.0) return (-1.0)
+    }
+    while (abs(last) > eps) {
+        last = x.pow(power) / n
+        sinus += if (n % 4 == 1) last else last * (-1)
+        n *= (n + 1) * (n + 2)
+        power += 2
+    }
+    return sinus
+}
 
 /**
  * Средняя (4 балла)
@@ -273,7 +295,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sequenceLength=0
+    var digitCount=0
+    var seq=0
+    var count=0
+    while (sequenceLength<n){
+        count+=1
+        digitCount= countDigits(count*count)
+        seq=(((seq * (10.0.pow(digitCount.toDouble()))) + (count * count))).toInt()
+        sequenceLength+=digitCount
+    }
+    println(seq)
+    println(seq.toInt()%(10.0.pow(n)).toInt()%10)
+    return seq.toInt()%(10.0.pow(n)).toInt()%10
+}
 
 /**
  * Сложная (5 баллов)

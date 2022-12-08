@@ -76,7 +76,7 @@ Basic, Ruby, Swift.
     fun countSubstrings() {
         assertEquals(
             mapOf("е" to 49, "РАЗНЫЕ" to 2, "ные" to 2, "Неряшливость" to 1, "эволюция" to 0),
-            countSubstrings("input/substrings_in1.txt", listOf("е","РАЗНЫЕ", "ные", "Неряшливость", "эволюция"))
+            countSubstrings("input/substrings_in1.txt", listOf("е", "РАЗНЫЕ", "ные", "Неряшливость", "эволюция"))
         )
         assertEquals(
             mapOf("Карминовый" to 2, "Некрасивый" to 2, "белоглазый" to 1),
@@ -119,14 +119,8 @@ Basic, Ruby, Swift.
         centerFile("input/center_in1.txt", "temp.txt")
         assertFileContent(
             "temp.txt",
-            """              Съешь же ещё этих мягких французских булок, да выпей чаю.
-Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства.
-                                        Тест
-                                          """ +  // Avoiding trailing whitespaces problem
-                    """
-                                     Hello World
-           Во входном файле с именем inputName содержится некоторый текст.
-        Вывести его в выходной файл с именем outputName, выровняв по центру."""
+            """   Аба
+                |бабаббб --""".trimMargin()
         )
         File("temp.txt").delete()
     }
@@ -324,6 +318,7 @@ Basic, Ruby, Swift.
         markdownToHtml("input/markdown_lists.md", "temp.html")
         checkHtmlListsExample()
     }
+
     //"      2873\n*    38648\n----------\n     22984\n+   11492\n+  17238\n+ 22984\n+ 8619\n----------\n 111035704"
     @Test
     @Tag("12")

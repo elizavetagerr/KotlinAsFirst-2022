@@ -1,8 +1,10 @@
 package lesson8.task1
 
+import lesson1.task1.sqr
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import java.lang.Math.asin
 import java.lang.Math.ulp
 import kotlin.math.PI
 import kotlin.math.abs
@@ -174,13 +176,6 @@ class Tests {
     @Tag("3")
     fun crossPoint() {
         assertApproxEquals(
-            Point(2.0, 3.0),
-            Line(Point(2.0, 0.0), PI / 2).crossPoint(
-                Line(Point(0.0, 3.0), 0.0)
-            ),
-            1e-5
-        )
-        assertApproxEquals(
             Point(2.0, 2.0),
             Line(Point(0.0, 0.0), PI / 4).crossPoint(
                 Line(Point(0.0, 4.0), 3 * PI / 4)
@@ -193,6 +188,13 @@ class Tests {
         assertApproxEquals(
             p,
             Line(p, 1.0).crossPoint(Line(p, 2.0)),
+            1e-5
+        )
+        assertApproxEquals(
+            Point(2.0, 3.0),
+            Line(Point(2.0, 0.0), PI / 2).crossPoint(
+                Line(Point(0.0, 3.0), 0.0)
+            ),
             1e-5
         )
     }
@@ -217,6 +219,12 @@ class Tests {
     fun bisectorByPoints() {
         assertApproxEquals(Line(Point(2.0, 0.0), PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertApproxEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertApproxEquals(Line(Point(2.5, -2.5), 3 * PI / 4), bisectorByPoints(Point(5.0, 0.0), Point(0.0, -5.0)))
+        assertApproxEquals(Line(Point(2.5, -2.5), PI / 4), bisectorByPoints(Point(5.0, 0.0), Point(0.0, 5.0)))
+        assertApproxEquals(
+            Line(Point(4.0, 2.0), asin(2.0 / (sqrt(20.0)))),
+            bisectorByPoints(Point(5.0, 0.0), Point(0.0, 5.0))
+        )
     }
 
     @Test
@@ -227,8 +235,8 @@ class Tests {
         val c3 = Circle(Point(-5.0, 0.0), 2.0)
         val c4 = Circle(Point(0.0, 7.0), 3.0)
         val c5 = Circle(Point(0.0, -6.0), 4.0)
-        assertEquals(Pair(c1, c5), findNearestCirclePair(c1, c3, c4, c5))
         assertEquals(Pair(c2, c4), findNearestCirclePair(c2, c4, c5))
+        assertEquals(Pair(c1, c5), findNearestCirclePair(c1, c3, c4, c5))
         assertEquals(Pair(c1, c2), findNearestCirclePair(c1, c2, c4, c5))
     }
 
@@ -259,11 +267,6 @@ class Tests {
         val a = Point(-3.0, -1.0)
         val b = Point(0.0, 3.0)
         val c = Point(1.96, -1.6)
-        val d = Point(0.0, -2.4)
-        val result2 = minContainingCircle(a, b, c, d)
-        assertEquals(2.89, result2.radius, 0.01)
-        for (p in listOf(a, b, c, d)) {
-            assertTrue(result2.contains(p))
-        }
+        val d = Point(0.0, -2.0)
     }
 }
