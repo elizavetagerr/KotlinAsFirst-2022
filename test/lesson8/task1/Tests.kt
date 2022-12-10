@@ -220,10 +220,10 @@ class Tests {
         assertApproxEquals(Line(Point(2.0, 0.0), PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertApproxEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
         assertApproxEquals(Line(Point(2.5, -2.5), 3 * PI / 4), bisectorByPoints(Point(5.0, 0.0), Point(0.0, -5.0)))
-        assertApproxEquals(Line(Point(2.5, -2.5), PI / 4), bisectorByPoints(Point(5.0, 0.0), Point(0.0, 5.0)))
+        assertApproxEquals(Line(Point(2.5, 2.5), PI / 4), bisectorByPoints(Point(5.0, 0.0), Point(0.0, 5.0)))
         assertApproxEquals(
-            Line(Point(4.0, 2.0), asin(2.0 / (sqrt(20.0)))),
-            bisectorByPoints(Point(5.0, 0.0), Point(0.0, 5.0))
+            Line(Point(4.0, 2.0), PI / 2 - asin(4.0 / (sqrt(20.0)))),
+            bisectorByPoints(Point(5.0, 0.0), Point(3.0, 4.0))
         )
     }
 

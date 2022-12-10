@@ -63,17 +63,17 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty()) writer.newLine()
-        else {
-            if (line.first() != '_') {
-                writer.write(line)
-                writer.newLine()
+    File(outputName).bufferedWriter().use { writer ->
+        for (line in File(inputName).readLines()) {
+            if (line.isEmpty()) writer.newLine()
+            else {
+                if (line.first() != '_') {
+                    writer.write(line)
+                    writer.newLine()
+                }
             }
         }
     }
-    writer.close()
 }
 
 /**
@@ -87,10 +87,10 @@ fun deleteMarked(inputName: String, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val count = mutableMapOf<String, Int>()
-    val str = File(inputName).readLines().toString().lowercase()
+    val str = File(inputName).readText().lowercase()
     for (word in substrings) {
-        println("12345678".windowed(5, 1))
-        count[word] = str.split(word.lowercase()).count() - 1
+        count[word] = if (word.length == 1) str.split(word.lowercase()).count() - 1
+        else str.windowed(word.length).toString().split(word.lowercase()).count() - 1
     }
     return count
 }
@@ -135,11 +135,10 @@ fun centerFile(inputName: String, outputName: String) {
     val list = File(inputName).readLines()
     for (line in list) {
         val max = (list.maxOf { it.trim().length })
-        val gap=max / 2 - (line.trim().length) / 2
-        if (gap>max-line.trim().length-gap) {
-            writer.write((" ").repeat(gap-1)+ line.trim())
-        }
-        else writer.write((" ").repeat(gap) + line.trim())
+        val gap = max / 2 - (line.trim().length) / 2
+        if (gap > max - line.trim().length - gap) {
+            writer.write((" ").repeat(gap - 1) + line.trim())
+        } else writer.write((" ").repeat(gap) + line.trim())
         writer.newLine()
     }
     writer.close()
@@ -273,7 +272,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
                 listMax = mutableListOf(line)
                 repeatFlag = true
             }
-            if ((line.length == maxx) &&(!repeatFlag)) {
+            if ((line.length == maxx) && (!repeatFlag)) {
                 listMax.add(line)
             }
         }

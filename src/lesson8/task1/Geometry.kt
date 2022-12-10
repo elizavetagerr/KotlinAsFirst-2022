@@ -2,7 +2,6 @@
 
 package lesson8.task1
 
-import lesson1.task1.angleInRadian
 import lesson1.task1.sqr
 import lesson2.task2.pointInsideCircle
 import kotlin.math.*
@@ -209,17 +208,21 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    val sinus = abs(abs(a.y - b.y) / (a.distance(b)))
+    val sinus = abs(a.y - b.y) / (a.distance(b))
     val angSeg = asin(sinus)
-    val k = if (angSeg < (PI / 2)) -1 else 1
-    //val angBis = abs(PI / 2 - k*asin(sinus))
+    var isAbtuse = false
+    if (a.y > b.y) {
+        isAbtuse = (a.x < b.x)
+    }
+    if (a.y < b.y) {
+        isAbtuse = (a.x > b.x)
+    }
     val angBis = when {
         angSeg == 0.0 -> PI / 2
         angSeg == PI / 2 -> 0.0
-        angSeg > PI / 2 -> 0.0
-        else -> 0.0
+        isAbtuse -> PI / 2 - angSeg
+        else -> angSeg + PI / 2
     }
-    println(1)
     return Line(middle, angBis)
 }
 
@@ -265,9 +268,6 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val cent = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
     val rad = cent.distance(a)
-    println(bisectorByPoints(a, b))
-    println(bisectorByPoints(a, c))
-    println(Circle(cent, rad))
     return Circle(cent, rad)
 }
 
@@ -282,4 +282,6 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    TODO()
+}
