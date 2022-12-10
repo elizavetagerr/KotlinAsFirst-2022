@@ -276,7 +276,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
- TODO()
+    TODO()
 }
 
 /**
