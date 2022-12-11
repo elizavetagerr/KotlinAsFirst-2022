@@ -191,7 +191,19 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     val sinus = abs((s.end.y - s.begin.y) / (s.end.distance(s.begin)))
-    return Line(s.begin, asin(sinus))
+    val ang = if (isAbtuse(s.begin, s.end)) PI - asin(sinus) else asin(sinus)
+    return Line(s.begin, ang)
+}
+
+
+fun isAbtuse(a: Point, b: Point): Boolean {
+    if (a.y > b.y) {
+        return (a.x < b.x)
+    }
+    if (a.y < b.y) {
+        return (a.x > b.x)
+    }
+    return false
 }
 
 /**
@@ -210,17 +222,10 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
     val sinus = abs(a.y - b.y) / (a.distance(b))
     val angSeg = asin(sinus)
-    var isAbtuse = false
-    if (a.y > b.y) {
-        isAbtuse = (a.x < b.x)
-    }
-    if (a.y < b.y) {
-        isAbtuse = (a.x > b.x)
-    }
     val angBis = when {
         angSeg == 0.0 -> PI / 2
         angSeg == PI / 2 -> 0.0
-        isAbtuse -> PI / 2 - angSeg
+        isAbtuse(a, b) -> PI / 2 - angSeg
         else -> angSeg + PI / 2
     }
     return Line(middle, angBis)
