@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 import kotlin.math.*
 
@@ -276,7 +277,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    TODO()
+    var sequenceLength = 0
+    var digitCount: Int
+    var count = 0
+    while (sequenceLength < n) {
+        count += 1
+        digitCount = countDigits(sqr(count))
+        sequenceLength += digitCount
+    }
+    return if ((sequenceLength - n) != 0) sqr(count) / 10.0.pow(sequenceLength - n).toInt() % 10 else sqr(count) % 10
 }
 
 /**
@@ -288,4 +297,16 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var sequenceLength = 0
+    var digitCount: Int
+    var count = 0
+    var fibonacci = 1
+    while (sequenceLength < n) {
+        count += 1
+        fibonacci = fib(count)
+        digitCount = countDigits(fibonacci)
+        sequenceLength += digitCount
+    }
+    return if ((sequenceLength - n) != 0) fibonacci / 10.0.pow(sequenceLength - n).toInt() % 10 else fibonacci % 10
+}
