@@ -191,7 +191,8 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     val sinus = abs((s.end.y - s.begin.y) / (s.end.distance(s.begin)))
-    val ang = if ((isAbtuse(s.begin, s.end)) || (asin(sinus) == PI)) PI - asin(sinus) else asin(sinus)
+    var ang = if (isAbtuse(s.begin, s.end)) PI - asin(sinus) else asin(sinus)
+    if (ang==PI) ang=0.0
     return Line(s.begin, ang)
 }
 
