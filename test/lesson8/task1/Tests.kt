@@ -249,7 +249,10 @@ class Tests {
     fun circleByThreePoints() {
         val actual = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
         val expected = Circle(Point(0.0, 0.0), 5.0)
+        val actual1 = circleByThreePoints(Point(0.0, 0.0), Point(-632.0, -632.0), Point(-632.0, 0.0))
+        val expected1 = Circle(Point(-316.0, -316.0), 446.89148570989806)
         assertApproxEquals(expected, actual, 1e-5)
+        assertApproxEquals(expected1, actual1, 1e-5)
     }
 
     @Test

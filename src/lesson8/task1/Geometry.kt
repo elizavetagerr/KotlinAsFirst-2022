@@ -163,10 +163,10 @@ class Line private constructor(val b: Double, val angle: Double) {
         val y: Double
         if (((angle / (PI / 2)) % 2 == 1.0) && (abs(angle) >= PI / 2)) {
             y = if (other.angle < PI / 2) other.b / cos(other.angle) + x * tan(other.angle)
-            else other.b / cos(other.angle)
+            else other.b * abs(cos(other.angle))
         } else if (((other.angle / (PI / 2)) % 2 == 1.0) && (abs(other.angle) >= PI / 2)) {
             y = if (angle < PI / 2) b / cos(angle) + x * tan(angle)
-            else b / cos(angle)
+            else b * cos(angle)
         } else {
             y = (x * sin(angle) + b) / cos(angle)
         }
@@ -192,7 +192,7 @@ class Line private constructor(val b: Double, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val sinus = abs((s.end.y - s.begin.y) / (s.end.distance(s.begin)))
     var ang = if (isAbtuse(s.begin, s.end)) PI - asin(sinus) else asin(sinus)
-    if (ang==PI) ang=0.0
+    if (ang == PI) ang = 0.0
     return Line(s.begin, ang)
 }
 
