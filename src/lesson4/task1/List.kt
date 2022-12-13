@@ -265,7 +265,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val conv = convert(n, base)
-    var result = StringBuilder()
+    val result = StringBuilder()
     var x: String
     for (i in conv) {
         x = i.toString()
@@ -319,8 +319,23 @@ fun decimalFromString(str: String, base: Int): Int {
  * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
+
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val rim = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val dig = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    var nCopy = n
+    var i = 0
+    val result = StringBuilder()
+    while (nCopy != 0) {
+        while (nCopy - dig[i] >= 0) {
+            result.append(rim[i])
+            nCopy -= dig[i]
+        }
+        i++
+    }
+    return result.toString()
+}
 
 /**
  * Очень сложная (7 баллов)

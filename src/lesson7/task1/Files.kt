@@ -529,18 +529,14 @@ Expected output:
  *     38649
  *     -----------
  *     294471
- *     +   130876\n+  196314\n+ 261752\n+ 98157\n-----------\n 1264556631"
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val factor1 = lhv.toString()
     val factor2 = rhv.toString()
     var rhvCopy = rhv
     File(outputName).bufferedWriter().use { writer ->
-        val lineLen = maxOf(
-            //factor1.length + factor2.length,
-            (lhv * rhv).toString().length + 1,
-            //((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
-        )
+        val lineLen =
+            (lhv * rhv).toString().length + 1
         writer.write(factor1.padStart(lineLen))
         writer.newLine()
         writer.write("*" + factor2.padStart(lineLen - 1))
