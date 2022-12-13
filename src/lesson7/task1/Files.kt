@@ -133,12 +133,16 @@ fun sibilants(inputName: String, outputName: String) {
 fun centerFile(inputName: String, outputName: String) {
     File(outputName).bufferedWriter().use { writer ->
         val list = File(inputName).readLines()
-        val max = (list.maxOf { it.trim().length })
-        for (line in list) {
-            val tLine = line.trim()
-            val gap = max / 2 - (tLine.length) / 2
-            writer.write((" ").repeat(gap) + tLine)
-            writer.newLine()
+        if (list.isEmpty()) {
+            writer.write("")
+        } else {
+            val max = (list.maxOf { it.trim().length })
+            for (line in list) {
+                val tLine = line.trim()
+                val gap = max / 2 - (tLine.length) / 2
+                writer.write((" ").repeat(gap) + tLine)
+                writer.newLine()
+            }
         }
     }
 }
@@ -171,8 +175,47 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    File(outputName).bufferedWriter().use { writer ->
+        if (File(inputName).readLines().isEmpty()) {
+            writer.write("")
+        } else {
+            val list = File(inputName).readLines().map { it.split(Regex("""\s+""")).joinToString(" ").trim() }
+            val lettersInLine = mutableMapOf<Int, Int>()
+            val letters = mutableListOf<Int>()
+            for (line in list) {
+                val sumLit = line.split(" ").sumOf { it.length }
+                lettersInLine[sumLit] = line.length
+                letters.add(sumLit)
+            }
+            list.forEach { line ->
+                lettersInLine[line.split(" ").sumOf { it.length }] = line.length
+            }
+            val maxLine = lettersInLine[lettersInLine.keys.maxBy { it }]
+            for ((i, line) in list.withIndex()) {
+                val newLine = line.split(" ").toMutableList()
+                val difference = maxLine?.minus(letters[i])
+                if (newLine.size > 1) {
+                    var count = 1
+                    val size = newLine.size - 1
+                    for (j in 1..size) {
+                        newLine.add(count, " ".repeat(difference!! / size))
+                        count += 2
+                    }
+                    count = 2
+                    if ((difference!! % size) != 0) {
+                        for (j in 1..(difference % size)) {
+                            newLine.add(count, " ")
+                            count += 3
+                        }
+                    }
+                }
+                writer.write(newLine.joinToString(""))
+                writer.newLine()
+            }
+        }
+    }
 }
+
 
 /**
  * Средняя (14 баллов)
