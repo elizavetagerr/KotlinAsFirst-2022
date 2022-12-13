@@ -22,35 +22,35 @@ import java.io.File
  * их следует сохранить и в выходном файле
  */
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    var currentLineLength = 0
-    fun append(word: String) {
-        if (currentLineLength > 0) {
-            if (word.length + currentLineLength >= lineLength) {
-                writer.newLine()
-                currentLineLength = 0
-            } else {
-                writer.write(" ")
-                currentLineLength++
-            }
-        }
-        writer.write(word)
-        currentLineLength += word.length
-    }
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty()) {
-            writer.newLine()
+    File(outputName).bufferedWriter().use { writer ->
+        var currentLineLength = 0
+        fun append(word: String) {
             if (currentLineLength > 0) {
-                writer.newLine()
-                currentLineLength = 0
+                if (word.length + currentLineLength >= lineLength) {
+                    writer.newLine()
+                    currentLineLength = 0
+                } else {
+                    writer.write(" ")
+                    currentLineLength++
+                }
             }
-            continue
+            writer.write(word)
+            currentLineLength += word.length
         }
-        for (word in line.split(Regex("\\s+"))) {
-            append(word)
+        for (line in File(inputName).readLines()) {
+            if (line.isEmpty()) {
+                writer.newLine()
+                if (currentLineLength > 0) {
+                    writer.newLine()
+                    currentLineLength = 0
+                }
+                continue
+            }
+            for (word in line.split(Regex("\\s+"))) {
+                append(word)
+            }
         }
     }
-    writer.close()
 }
 
 /**
@@ -131,17 +131,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    val list = File(inputName).readLines()
-    for (line in list) {
+    File(outputName).bufferedWriter().use { writer ->
+        val list = File(inputName).readLines()
         val max = (list.maxOf { it.trim().length })
-        val gap = max / 2 - (line.trim().length) / 2
-        if (gap > max - line.trim().length - gap) {
-            writer.write((" ").repeat(gap - 1) + line.trim())
-        } else writer.write((" ").repeat(gap) + line.trim())
-        writer.newLine()
+        for (line in list) {
+            val tLine = line.trim()
+            val gap = max / 2 - (tLine.length) / 2
+            writer.write((" ").repeat(gap) + tLine)
+            writer.newLine()
+        }
     }
-    writer.close()
 }
 
 /**
@@ -261,24 +260,25 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    var listMax = mutableListOf<String>()
-    var maxx = 0
-    for (line in File(inputName).readLines()) {
-        if (line.lowercase().toSet().size == line.length) {
-            var repeatFlag = false
-            if (line.length > maxx) {
-                maxx = line.length
-                listMax = mutableListOf(line)
-                repeatFlag = true
-            }
-            if ((line.length == maxx) && (!repeatFlag)) {
-                listMax.add(line)
+    File(outputName).bufferedWriter().use { writer ->
+        var listMax = mutableListOf<String>()
+        var maxx = 0
+        for (line in File(inputName).readLines()) {
+            if (line.lowercase().toSet().size == line.length) {
+                var repeatFlag = false
+                if (line.length > maxx) {
+                    maxx = line.length
+                    listMax = mutableListOf(line)
+                    repeatFlag = true
+                }
+                if ((line.length == maxx) && (!repeatFlag)) {
+                    listMax.add(line)
+                }
             }
         }
+        writer.write(listMax.joinToString(", "))
+        writer.close()
     }
-    writer.write(listMax.joinToString(", "))
-    writer.close()
 }
 
 /**
@@ -489,37 +489,35 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val factor1 = lhv.toString()
     val factor2 = rhv.toString()
     var rhvCopy = rhv
-    val writer = File(outputName).bufferedWriter()
-    val lineLen = maxOf(
-        factor1.length + factor2.length,
-        (lhv * rhv).toString().length + 1,
-        ((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
-    )
-    writer.write(factor1.padStart(lineLen))
-    writer.newLine()
-    writer.write("*" + factor2.padStart(lineLen - 1))
-    writer.newLine()
-    writer.write("-".repeat(lineLen))
-    writer.newLine()
-    var count = 0
-    while (rhvCopy > 0) {
-        val factor = (lhv * (rhvCopy % 10)).toString()
-        if (count > 0) {
-            writer.write("+" + factor.padStart(lineLen - count - 1))
-        } else writer.write(factor.padStart(lineLen))
+    File(outputName).bufferedWriter().use { writer ->
+        val lineLen = maxOf(
+            //factor1.length + factor2.length,
+            (lhv * rhv).toString().length + 1,
+            //((lhv * (factor2.first().digitToInt())).toString()).length + factor2.length
+        )
+        writer.write(factor1.padStart(lineLen))
         writer.newLine()
-        count += 1
-        rhvCopy /= 10
+        writer.write("*" + factor2.padStart(lineLen - 1))
+        writer.newLine()
+        writer.write("-".repeat(lineLen))
+        writer.newLine()
+        var count = 0
+        while (rhvCopy > 0) {
+            val factor = (lhv * (rhvCopy % 10)).toString()
+            if (count > 0) {
+                writer.write("+" + factor.padStart(lineLen - count - 1))
+            } else writer.write(factor.padStart(lineLen))
+            writer.newLine()
+            count += 1
+            rhvCopy /= 10
+        }
+        writer.write("-".repeat(lineLen))
+        writer.newLine()
+        val result = (rhv * lhv).toString()
+        writer.write(result.padStart(lineLen))
+        writer.newLine()
     }
-    writer.write("-".repeat(lineLen))
-    writer.newLine()
-    val result = (rhv * lhv).toString()
-    writer.write(result.padStart(lineLen))
-    writer.newLine()
-
-    writer.close()
 }
-
 
 /**
  * Сложная (25 баллов)

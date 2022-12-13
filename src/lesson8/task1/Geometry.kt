@@ -160,15 +160,12 @@ class Line private constructor(val b: Double, val angle: Double) {
      */
     fun crossPoint(other: Line): Point {
         val x = (other.b * cos(angle) - b * cos(other.angle)) / (sin(angle - other.angle))
-        val y: Double
-        if (((angle / (PI / 2)) % 2 == 1.0) && (abs(angle) >= PI / 2)) {
-            y = if (other.angle < PI / 2) other.b / cos(other.angle) + x * tan(other.angle)
-            else other.b * abs(cos(other.angle))
-        } else if (((other.angle / (PI / 2)) % 2 == 1.0) && (abs(other.angle) >= PI / 2)) {
-            y = if (angle < PI / 2) b / cos(angle) + x * tan(angle)
-            else b * cos(angle)
-        } else {
-            y = (x * sin(angle) + b) / cos(angle)
+        val y: Double = when {
+            ((angle / (PI / 2)) % 2 == 1.0) && (other.angle < PI / 2) -> other.b / cos(other.angle) + x * tan(other.angle)
+            ((angle / (PI / 2)) % 2 == 1.0) && (other.angle > PI / 2) -> other.b * cos(other.angle)
+            ((other.angle / (PI / 2)) % 2 == 1.0) && (other.angle > PI / 2) -> b / cos(angle) + x * tan(angle)
+            ((other.angle / (PI / 2)) % 2 == 1.0) && (other.angle < PI / 2) -> b * cos(angle)
+            else -> (x * sin(angle) + b) / cos(angle)
         }
         return Point(x, y)
     }
@@ -190,14 +187,14 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val sinus = abs((s.end.y - s.begin.y) / (s.end.distance(s.begin)))
-    var ang = if (isAbtuse(s.begin, s.end)) PI - asin(sinus) else asin(sinus)
+    val angSeg = angleOfSegment(s.begin, s.end)
+    var ang = if (isObtuse(s.begin, s.end)) PI - angSeg else angSeg
     if (ang == PI) ang = 0.0
     return Line(s.begin, ang)
 }
 
 
-fun isAbtuse(a: Point, b: Point): Boolean {
+fun isObtuse(a: Point, b: Point): Boolean {
     if (a.y > b.y) {
         return (a.x < b.x)
     }
@@ -221,16 +218,17 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    val sinus = abs(a.y - b.y) / (a.distance(b))
-    val angSeg = asin(sinus)
+    val angSeg = angleOfSegment(a, b)
     val angBis = when {
         angSeg == 0.0 -> PI / 2
         angSeg == PI / 2 -> 0.0
-        isAbtuse(a, b) -> PI / 2 - angSeg
+        isObtuse(a, b) -> PI / 2 - angSeg
         else -> angSeg + PI / 2
     }
     return Line(middle, angBis)
 }
+
+fun angleOfSegment(a: Point, b: Point): Double = asin(abs(a.y - b.y) / (a.distance(b)))
 
 /**
  * Средняя (3 балла)

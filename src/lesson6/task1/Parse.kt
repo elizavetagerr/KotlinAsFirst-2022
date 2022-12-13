@@ -182,11 +182,9 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 
-fun bestLongJump(jumps: String): Int {
-    return if (Regex("""((\d)+ ([-% ]*)+)+(\d+)?""").matches(jumps)) {
-        ((jumps.split(" ").filter { isNumeric(it) }.map { it -> it.toInt() }).max())
-    } else -1
-}
+fun bestLongJump(jumps: String): Int = if (Regex("""((\d)+ ([-% ]*)+)+(\d+)?""").matches(jumps)) {
+    ((jumps.split(" ").filter { isNumeric(it) }.map { it -> it.toInt() }).max())
+} else -1
 
 fun isNumeric(str: String): Boolean {
     for (i in str) {
@@ -206,18 +204,16 @@ fun isNumeric(str: String): Boolean {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
-    return if (Regex("""((\d)+ ([-% +])+)+(\d+)?""").matches(jumps)) {
-        var max = -1
-        val jump = jumps.split(" ")
-        for (i in 0..jump.size - 2) {
-            if (('+' in jump[i + 1]) && (isNumeric(jump[i].trim()))) {
-                max = maxOf(max, jump[i].toInt())
-            }
+fun bestHighJump(jumps: String): Int = if (Regex("""((\d)+ ([-% +])+)+(\d+)?""").matches(jumps)) {
+    var max = -1
+    val jump = jumps.split(" ")
+    for (i in 0..jump.size - 2) {
+        if ('+' in jump[i + 1]) {
+            max = maxOf(max, jump[i].toInt())
         }
-        max
-    } else -1
-}
+    }
+    max
+} else -1
 
 /**
  * Сложная (6 баллов)
@@ -240,10 +236,7 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int {
-    val str1 = str.lowercase()
-    return Regex("""((\S)+)\s\1""").find(str1)?.range?.first ?: -1
-}
+fun firstDuplicateIndex(str: String): Int = Regex("""((\S)+)\s\1""").find(str.lowercase())?.range?.first ?: -1
 
 /**
  * Сложная (6 баллов)

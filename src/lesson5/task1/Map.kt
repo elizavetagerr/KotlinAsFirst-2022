@@ -2,10 +2,8 @@
 
 package lesson5.task1
 
-import lesson4.task1.mean
-import ru.spbstu.wheels.NullableMonad.filter
+
 import ru.spbstu.wheels.sorted
-import ru.spbstu.wheels.toMutableMap
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -121,8 +119,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for (k in a.keys) {
-        if ((k !in b.keys)) return false
-        else if (b[k] != a[k]) return false
+        if ((k !in b.keys) || (b[k] != a[k])) return false
     }
     return true
 }
@@ -325,14 +322,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val difMap = mutableMapOf<Int, Int>()
+    val diffMap = mutableMapOf<Int, Int>()
     for (i in list.indices) {
-        difMap[number - list[i]] = i
+        diffMap[number - list[i]] = i
     }
     for (i in list.indices) {
-        if (list[i] in difMap.keys) {
-            if (difMap[list[i]] != i) {
-                return Pair(difMap[list[i]]!!, i).sorted()
+        if (list[i] in diffMap.keys) {
+            if (diffMap[list[i]] != i) {
+                return Pair(diffMap[list[i]]!!, i).sorted()
             }
         }
     }
