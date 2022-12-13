@@ -140,7 +140,9 @@ fun centerFile(inputName: String, outputName: String) {
             for (line in list) {
                 val tLine = line.trim()
                 val gap = max / 2 - (tLine.length) / 2
-                writer.write((" ").repeat(gap) + tLine)
+                if (gap > max - tLine.length - gap) {
+                    writer.write((" ").repeat(gap - 1) + tLine)
+                } else writer.write((" ").repeat(gap) + tLine)
                 writer.newLine()
             }
         }
