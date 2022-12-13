@@ -89,8 +89,9 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val count = mutableMapOf<String, Int>()
     val str = File(inputName).readText().lowercase()
     for (word in substrings) {
-        count[word] = if (word.length == 1) str.split(word.lowercase()).count() - 1
-        else str.windowed(word.length).toString().split(word.lowercase()).count() - 1
+        count[word] = 0
+        str.windowed(word.length)
+            .forEach { if (it == word.lowercase()) count[word] = count.getOrDefault(word, 0) + 1 }
     }
     return count
 }
