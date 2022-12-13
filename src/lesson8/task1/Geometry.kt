@@ -3,7 +3,6 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import lesson2.task2.pointInsideCircle
 import kotlin.math.*
 
 // Урок 8: простые классы
@@ -81,8 +80,7 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double {
-        val result = center.distance(other.center) - radius - other.radius
-        return (abs(result) + result) / 2
+        TODO()
     }
 
     /**
@@ -90,7 +88,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = pointInsideCircle(p.x, p.y, center.x, center.y, radius)
+    fun contains(p: Point): Boolean = TODO()
 }
 
 /**
@@ -111,20 +109,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    val list = points.toList()
-    if (list.size >= 2) {
-        var maxx = 0.0
-        var result = Pair(list[0], list[1])
-        for (i in list.indices) {
-            for (j in i + 1 until list.size) {
-                if (list[i].distance(list[j]) > maxx) {
-                    maxx = list[i].distance(list[j])
-                    result = Pair(list[i], list[j])
-                }
-            }
-        }
-        return Segment(result.first, result.second)
-    } else throw IllegalArgumentException()
+    TODO()
 }
 
 /**
@@ -134,10 +119,7 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle =
-    Circle(
-        Point((diameter.begin.x + diameter.end.x) / 2.0, (diameter.begin.y + diameter.end.y) / 2.0),
-        (diameter.begin).distance(diameter.end) / 2.0
-    )
+    TODO()
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
@@ -159,15 +141,7 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = (other.b * cos(angle) - b * cos(other.angle)) / (sin(angle - other.angle))
-        val y: Double = when {
-            ((angle / (PI / 2)) % 2 == 1.0) && (other.angle < PI / 2) -> other.b / cos(other.angle) + x * tan(other.angle)
-            ((angle / (PI / 2)) % 2 == 1.0) && (other.angle > PI / 2) -> other.b * cos(other.angle)
-            ((other.angle / (PI / 2)) % 2 == 1.0) && (other.angle > PI / 2) -> b / cos(angle) + x * tan(angle)
-            ((other.angle / (PI / 2)) % 2 == 1.0) && (other.angle < PI / 2) -> b * cos(angle)
-            else -> (x * sin(angle) + b) / cos(angle)
-        }
-        return Point(x, y)
+        TODO()
     }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
@@ -187,22 +161,9 @@ class Line private constructor(val b: Double, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val angSeg = angleOfSegment(s.begin, s.end)
-    var ang = if (isObtuse(s.begin, s.end)) PI - angSeg else angSeg
-    if (ang == PI) ang = 0.0
-    return Line(s.begin, ang)
+    TODO()
 }
 
-
-fun isObtuse(a: Point, b: Point): Boolean {
-    if (a.y > b.y) {
-        return (a.x < b.x)
-    }
-    if (a.y < b.y) {
-        return (a.x > b.x)
-    }
-    return false
-}
 
 /**
  * Средняя (3 балла)
@@ -217,18 +178,9 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val middle = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    val angSeg = angleOfSegment(a, b)
-    val angBis = when {
-        angSeg == 0.0 -> PI / 2
-        angSeg == PI / 2 -> 0.0
-        isObtuse(a, b) -> PI / 2 - angSeg
-        else -> angSeg + PI / 2
-    }
-    return Line(middle, angBis)
+    TODO()
 }
 
-fun angleOfSegment(a: Point, b: Point): Double = asin(abs(a.y - b.y) / (a.distance(b)))
 
 /**
  * Средняя (3 балла)
@@ -243,21 +195,7 @@ fun angleOfSegment(a: Point, b: Point): Double = asin(abs(a.y - b.y) / (a.distan
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    val list = circles.toList().reversed()
-    if (list.size >= 2) {
-        var minn = Double.POSITIVE_INFINITY
-        var result = Pair(list[0], list[1])
-        for (i in list.indices) {
-            for (j in i + 1 until list.size) {
-                if (list[i].distance(list[j]) <= minn) {
-                    minn = list[i].distance(list[j])
-                    result = Pair(list[j], list[i])
-                }
-            }
-        }
-        return result
-    } else throw IllegalArgumentException()
-
+    TODO()
 }
 
 /**
