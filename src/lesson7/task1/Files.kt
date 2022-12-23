@@ -190,9 +190,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 lettersInLine[sumLit] = line.length
                 letters.add(sumLit)
             }
-            list.forEach { line ->
-                lettersInLine[line.split(" ").sumOf { it.length }] = line.length
-            }
             val maxLine = lettersInLine[lettersInLine.keys.maxBy { it }]
             for ((i, line) in list.withIndex()) {
                 val newLine = line.split(" ").toMutableList()
